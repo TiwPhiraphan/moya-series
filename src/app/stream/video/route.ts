@@ -12,7 +12,7 @@ function getParsedInt( num: unknown ) {
     return Number.isInteger( num ) ? parseInt( num as string ) : undefined
 }
 
-const CHUNK_SIZE = 1048576
+const CHUNK_SIZE = 1400000
 const videoMetadata = new Map< string, Omit< GoogleApisResponse, 'error' > >()
 
 export async function GET( request: NextRequest ) {
@@ -45,7 +45,7 @@ export async function GET( request: NextRequest ) {
     const chunk = getParsedInt( searchParams.get('chunk') ) || 0
     const chunk_size = chunk < 524288 ? CHUNK_SIZE : chunk
     const start = parseInt( range.replace(/bytes=/,'').split('-')[0], 10 )
-    const end = Math.min( start + chunk_size - 1, parseInt( size, 10 ) )
+    const end = Math.min( start + chunk_size - 1, parseInt( size, 10 ) - 1 )
     const video = await fetch( `https://www.googleapis.com/drive/v3/files/${ id }?alt=media`, {
         method: 'GET',
         headers: {
@@ -55,15 +55,12 @@ export async function GET( request: NextRequest ) {
     })
 
     const headers = new Headers({
-        "Content-Type": mimeType,
-        "Accept-Ranges": "bytes",
-        "Content-Range": `bytes ${start}-${end}/${size}`,
-        "Content-Length": ( end - start + 1 ).toString()
+        'Content-Type': mimeType,
+        'Accept-Ranges': 'bytes',
+        'Content-Range': `bytes ${start}-${end}/${size}`,
+        'Content-Length': ( end - start + 1 ).toString()
     })
 
-    return new NextResponse( video.body, {
-        status: 206,
-        headers
-    })
+    return new NextResponse( video.body, { status: 206, headers } )
 
 }
