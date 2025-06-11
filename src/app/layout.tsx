@@ -1,6 +1,7 @@
 
-import type { Metadata } from 'next'
+import { Config } from '@package/config'
 import { Krub } from 'next/font/google'
+import type { Metadata } from 'next'
 import './globals.css'
 
 const font = Krub({
@@ -10,7 +11,8 @@ const font = Krub({
 })
 
 export const metadata: Metadata = {
-    title: 'Model Series'
+    title: Config.title,
+    metadataBase: new URL( process.env.NODE_ENV == 'production' ? 'https://moya-series.vercel.app' : 'https://jubilant-space-potato-gxq74r6xp763p4j4-3000.app.github.dev' )
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
