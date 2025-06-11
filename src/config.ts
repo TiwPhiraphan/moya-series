@@ -6,6 +6,7 @@ export const Config = {
 
 export const Private = {
     Credentials: {
+        Jwt: 'payload.moya.series.mini',
         GoogleDrive: {
             type: 'service_account',
             project_id: 'wetoon-455900',
@@ -18,6 +19,12 @@ export const Private = {
             auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
             client_x509_cert_url: 'https://www.googleapis.com/robot/v1/metadata/x509/wetoon%40wetoon-455900.iam.gserviceaccount.com',
             universe_domain: 'googleapis.com'
+        },
+        Firebase: {
+            project_id: 'moya-database',
+            client_email: 'firebase-adminsdk-fbsvc@moya-database.iam.gserviceaccount.com',
+            databaseURL: 'https://moya-database-default-rtdb.asia-southeast1.firebasedatabase.app',
+            private_key: '-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDI4b4E9foHqaCI\nshfcesOfbqZYCcNZ+pQ4U5g0xEkiqKcm9t9R/AHKzWd/Ni582XqNveSizuSsW1Px\nzFVdEJEyeTJBTm0QBha2ResS36PRDV0sHTMjgyncfy1j/Em28m2Y768KL5QYs19Y\nJbXlfpXQZmQ501KWKxWnpK6YNtxcE0BwyKAeFATNQ7JsVsFy+1udCTW4j1/rmnfh\nNTMpNuN+0PUDIdCpavLlTpqUKHSD2c3kRTgXTiEw6iI7RZVmyHX+63sBTUrMWbV+\npFD3OjA8eQgpTljgZYUuxslvjByntw0ECiOPu30gLIlgGYsmxLfAwwuMuoBoS7Qq\nbbSYEWpTAgMBAAECggEAM4aDoO4e5dxCiw1zRWBP0RMmo6pNa0T0w8XdYpt+Tt+H\nkFz+Rx8mroglJeIV5nw6DSVKAeCjkvoR/BF3S9m2BIZFt66QFu4Y4UPp2ft3H2YY\nIfqTZWZ9VEtiryTFG6HvLq077pbpm7RWnlt93pGrh7rbtmFX66C9ezSoe+6Gcy8g\naicSIvvPxhNQQuMKT3J9+wadsHANZ+pc/zMCtp45Ry7zABxQ5booJYZOZ5rv4E7h\nvoEs82OfZWtD0hU9Vo9bTpXpq6t7UEvPgtgSGWq9uo9Ow1dNEWWqXRsdvzhwe1jj\nGMgY598rUjWzWJgC0EZNE22kCVkwyFXSUguf5fS18QKBgQDw62kX8ubD653rPC6O\nmQHsqB3uRFvoX+tn1O1EUI9CBmIsP/9ZysR+LcpoHSzMO3RlWfHb7wsEg3hcDL+B\nxrdx28aMKVupSUvJ2K3pkDWirMYwgyeMNW8La7+IIq5J3Yb0MhKTqE8UV/pbCj0W\n3A4ldcARmS9uI5EYhh+C8t3pFwKBgQDVdMA7WkQGSCcg2oUEPkKxmzYDJqDYIO6N\nyRcj+Ie2V96fmOZTJEqwDdPgYbPvv7ghtEhnRA/HOg8pm1WQ12XvbTrreBMmdvnS\nNLIC3j+QMP0cBHqsvLVrvUeZl9IpmTiOunc3dEp1+tUMCP6q7eP2v3Ee8Vyuhooj\no5sSKHdWJQKBgQDqqMFSfFtdVbAZoiLO7iW7tvyAScEjk9oc5n68XaNL8h/JbgRw\nF1pQdJWD13b87qQu2+8CA9G9cbjYH+qgo0em9SRs/RO0zhmt3wl2R+qWKqdYNUdd\n/+XLQAXsuar9c3Kxg9woSnXMIO1Po6dhDrIQtqKAAa77HlWDh5BF4f1XvQKBgQCg\nF8WJfmTglUMLh/kVuqCI1pFHAbTHBMQGgViiuOcIYpTs/F9a4jBGJMjRVFYBLbir\nRqy7DrgKw0fV+9PMI1EnprP3IQKz6a3q82zDa+8edS+Q0Oc1IP+sg7TsxIpyeqGJ\not6BL+4c2HjrYt+mUW+Vg/YSsBHEL9HxcuZ+Uu1WJQKBgQCTM+Ux49bkdZFS54HH\ndjHjDrhlX4lFYs+k43CwVFrOA6tqEaAweXLSmOKt6JaJLrl9GoBdr+eMxrrCqLnQ\nul44B/23hfOba2JbpEjZQWg0paTqAKHcB86XaR+5ZR3FizEF5F7LlhvLfhwu+Lp3\n/k/4aJhXDEord7Lgn4HZ3+pZkw==\n-----END PRIVATE KEY-----\n'
         }
     }
 }

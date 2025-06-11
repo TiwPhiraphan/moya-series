@@ -1,4 +1,5 @@
 
+import { ToastContainer } from 'react-toastify'
 import { Config } from '@package/config'
 import { Krub } from 'next/font/google'
 import type { Metadata } from 'next'
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <html lang='en'>
             <body className={ font.className }>
                 { children }
+                <ToastContainer />
             </body>
         </html>
     )
