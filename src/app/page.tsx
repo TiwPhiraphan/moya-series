@@ -10,7 +10,13 @@ const font = Audiowide({
     preload: false
 })
 
-export default function Home() {
+export type InterfaceMetadata = {
+    id: string
+    title: string
+    thumbnail: string
+}
+
+export default async function Home() {
     return (
         <>
             <section className='px-4 w-full mx-auto max-w-6xl select-none'>
@@ -19,7 +25,7 @@ export default function Home() {
                     <Link className='border-gray-300 rounded-2xl border px-3 py-1' href='/oAuth2/login'>เข้าสู่ระบบ</Link>
                 </nav>
                 <main className='py-5 w-full'>
-                    <Container />
+                    <Container metadata={ [] } />
                 </main>
             </section>
         </>
