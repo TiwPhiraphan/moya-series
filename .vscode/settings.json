@@ -2,5 +2,6 @@
     "editor.tabSize": 4,
     "editor.fontSize": 18,
     "autoimport.useSemiColon": true,
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+    "css.lint.unknownAtRules": "ignore"
 }
