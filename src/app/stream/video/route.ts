@@ -1,6 +1,6 @@
 
 import { type NextRequest, NextResponse } from 'next/server'
-import { auth } from '@package/module/GoogleAuth'
+import { auth } from '@package/lib/GoogleAuth'
 
 type GoogleApisResponse = {
     error: { code: number, message: string }

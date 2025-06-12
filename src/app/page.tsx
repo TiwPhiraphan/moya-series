@@ -1,7 +1,7 @@
 
 import { cookies } from 'next/headers'
-import HomePage from '@package/app/pages/Home'
-import { isAdminToken } from '@package/module/JwtAuth'
+import HomePage from '@package/pages/Home'
+import { isAdminToken } from '@package/lib/JwtAuth'
 
 export type InterfaceMetadata = {
     id: string

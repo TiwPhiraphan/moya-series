@@ -1,7 +1,7 @@
 
 import bcrypt from 'bcrypt'
-import db from '@package/module/FirebaseDatabase'
-import { createAdminToken } from '@package/module/JwtAuth'
+import db from '@package/lib/FirebaseDatabase'
+import { createAdminToken } from '@package/lib/JwtAuth'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function POST( request: NextRequest ) {
