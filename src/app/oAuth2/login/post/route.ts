@@ -4,6 +4,8 @@ import { createAdminToken } from '@package/lib/JwtAuth'
 import { getAuthToken } from '@package/lib/FirebaseDatabase'
 import { type NextRequest, NextResponse } from 'next/server'
 
+export const revalidate = 0
+
 export async function POST( request: NextRequest ) {
 
     const { token } = await request.json() as { token?: string } || {}
