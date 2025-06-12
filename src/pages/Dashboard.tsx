@@ -98,7 +98,7 @@ export default function DashboardComponent() {
                         </ReactCrop>
                         <div className='flex pb-3 pt-5 gap-3 text-white justify-center'>
                             <button className='w-20 py-1.5 rounded-md bg-blue-500'>ตกลง</button>
-                            <button className='w-20 py-1.5 rounded-md bg-red-500'>ยกเลิก</button>
+                            <button onClick={ () => setOpenCropState( false ) } className='w-20 py-1.5 rounded-md bg-red-500'>ยกเลิก</button>
                         </div>
                     </div>
                 }
