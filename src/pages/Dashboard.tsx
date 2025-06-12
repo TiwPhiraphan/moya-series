@@ -23,7 +23,7 @@ export default function DashboardComponent() {
     const thumbnailRef = useRef<HTMLInputElement>(null)
 
     const [ title, setTitle ] = useState('')
-    const [ description, setDescrption ] = useState('')
+    const [ description, setDescription ] = useState('')
     const [ thumbnail, setThumbnail ] = useState<File>()
     const [ serie, setSerie ] = useState<File>()
 
@@ -183,11 +183,11 @@ export default function DashboardComponent() {
                     <h1 className='p-4 text-2xl text-center font-semibold'>เพิ่มซีรีย์ใหม่</h1>
                     <div className='pt-2.5 flex flex-col'>
                         <label htmlFor='title'>ชื่อเรื่อง</label>
-                        <input className='px-4 py-1 border rounded outline-none' id='title' type="text" required></input>
+                        <input value={ title } onInput={ event => setTitle( event.currentTarget.value ) } className='px-4 py-1 border rounded outline-none' id='title' type="text" required></input>
                     </div>
                     <div className='pt-2.5 flex flex-col'>
                         <label htmlFor='description'>เรื่องย่อ - บทนำ</label>
-                        <input className='px-4 py-1 border rounded outline-none' id='description' type="text" required></input>
+                        <input value={ description } onInput={ event => setDescription( event.currentTarget.value ) } className='px-4 py-1 border rounded outline-none' id='description' type="text" required></input>
                     </div>
                     <div className='pt-2.5 flex flex-col'>
                         <label>ภาพหน้าปก</label>
@@ -195,7 +195,7 @@ export default function DashboardComponent() {
                     </div>
                     <div className='pt-2.5 flex flex-col'>
                         <label>ซีรีย์เต็มเรื่อง</label>
-                        <input className='px-4 py-1 border rounded outline-none' id='movie' type="file" accept='video/mp4, video/webm, video/ogg' required></input>
+                        <input onChange={ event => setSerie( event.currentTarget.files?.[0] as File ) } className='px-4 py-1 border rounded outline-none' id='movie' type="file" accept='video/mp4, video/webm, video/ogg' required></input>
                     </div>
                     <div className='p-4 flex gap-3 text-white justify-center'>
                         <button className='w-20 py-1.5 rounded-md bg-blue-500' type='submit'>บันทึก</button>
