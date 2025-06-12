@@ -93,9 +93,9 @@ export default function DashboardComponent() {
                 { thumbnail &&
                     <div className='p-5 w-[90%] mx-auto bg-white rounded-lg'>
                         <h1 className='pb-5 text-2xl text-center font-semibold'>เครื่องมือตัดรูปภาพ</h1>
-                        <div className='flex justify-center'>
-                            <ReactCrop crop={ crop } onChange={ setCrop } aspect={ 0.725 }>
-                                <img className='block max-w-full max-h-[70vh]' src={ thumbnail } alt="preview"></img>
+                        <div className='flex h-[70vh] justify-center'>
+                            <ReactCrop crop={ crop } onChange={ setCrop } aspect={ 0.7375 }>
+                                <img className='max-w-full max-h-full' src={ thumbnail } alt="preview"></img>
                             </ReactCrop>
                         </div>
                         <div className='flex pb-3 pt-5 gap-3 text-white justify-center'>
