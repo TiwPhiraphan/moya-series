@@ -95,13 +95,13 @@ export default function DashboardComponent() {
             <div className={ ( isOpenCrop ? 'flex' : 'hidden' ) + ' fixed top-0 left-0 w-full h-full items-center justify-center bg-slate-700 bg-opacity-70' }>
                 { thumbnail &&
                     <div className='p-5 w-[90%] mx-auto bg-white rounded-lg'>
-                        <h1 className='text-2xl border-b font-semibold'>เครื่องมือตัดรูปภาพ</h1>
+                        <h1 className='pb-5 text-2xl text-center font-semibold'>เครื่องมือตัดรูปภาพ</h1>
                         <ReactCrop crop={ crop } onChange={ setCrop }>
-                            <img className='w-full max-h-[60dvh]' src={ thumbnail } alt="preview"></img>
+                            <img className='block w-full mx-auto max-h-[60dvh]' src={ thumbnail } alt="preview"></img>
                         </ReactCrop>
-                        <div className='flex py-2 gap-3 border-t text-white'>
-                            <button className='w-20 py-1.5 bg-blue-500'>ตกลง</button>
-                            <button className='w-20 py-1.5 bg-red-500'>ยกเลิก</button>
+                        <div className='flex pb-3 pt-5 gap-3 text-white justify-center'>
+                            <button className='w-20 py-1.5 rounded-md bg-blue-500'>ตกลง</button>
+                            <button className='w-20 py-1.5 rounded-md bg-red-500'>ยกเลิก</button>
                         </div>
                     </div>
                 }
