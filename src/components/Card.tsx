@@ -13,7 +13,7 @@ export default function Card({ data }:{ data: InterfaceMetadata }) {
                 <div className='overflow-hidden transition-all rounded-2xl group-hover:rounded'>
                     <Image priority={ true } className='w-full transition-all group-hover:scale-110' height={668} width={501} src={ `https://lh3.googleusercontent.com/d/${ data.thumbnail }=w500` } alt={ data.thumbnail }></Image>
                 </div>
-                <figcaption className='px-1 py-3'>
+                <figcaption className='px-1 py-3 text-sm sm:text-base'>
                     <p>{ data.title }</p>
                 </figcaption>
             </Link>

@@ -11,4 +11,8 @@ const app = firebase.apps.length == 0 ? firebase.initializeApp({
     databaseURL: Private.Credentials.Firebase.databaseURL
 }) : firebase.app()
 
-export default app.database()
+const database = app.database()
+
+export async function getAuthToken(): Promise<string> {
+    return await database.ref('Token').get().then( s => s.val() )
+}

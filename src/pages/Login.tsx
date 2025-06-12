@@ -55,7 +55,7 @@ export default function LoginComponent() {
 
     return (
         <section className='flex min-h-dvh select-none items-center justify-center md:bg-slate-50'>
-            <Link className='absolute left-4 top-3' href='/'>{'〲 กลับหน้าแรก'}</Link>
+            <Link className='absolute left-4 top-3' href='/'>{'ぐ กลับหน้าแรก'}</Link>
             <form onSubmit={ onFormSubmit } className='px-5 sm:px-8 py-8 w-full bg-white md:border md:shadow max-w-72 rounded-lg'>
                 <h1 className={ font.className + ' text-center text-4xl pb-4' }>MoYa</h1>
                 <input className='mt-2 px-4 py-1 w-full outline-none border-b bg-transparent' type='text' value='Admin_MoYa' disabled={ true }></input>

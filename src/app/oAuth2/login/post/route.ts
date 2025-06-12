@@ -1,14 +1,14 @@
 
 import bcrypt from 'bcrypt'
-import db from '@package/lib/FirebaseDatabase'
 import { createAdminToken } from '@package/lib/JwtAuth'
+import { getAuthToken } from '@package/lib/FirebaseDatabase'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function POST( request: NextRequest ) {
 
     const { token } = await request.json() as { token?: string } || {}
     
-    if ( typeof token == 'string' && bcrypt.compareSync( token, await db.ref('Token').get().then( s => s.val() ) ) ) {
+    if ( typeof token == 'string' && bcrypt.compareSync( token, await getAuthToken() ) ) {
 
         const adminToken = createAdminToken()
 
