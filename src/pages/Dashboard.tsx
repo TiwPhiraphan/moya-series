@@ -19,7 +19,7 @@ const font = Audiowide({
 export default function DashboardComponent() {
 
     const [ crop, setCrop ] = useState<Crop>({
-        unit: '%', width: 80, height: 80, x: 10, y: 10
+        unit: '%', width: 60, height: 80, x: 0, y: 0
     })
     
     const [ isOpenNew, setOpenNewState ] = useState(false)
@@ -93,8 +93,8 @@ export default function DashboardComponent() {
                 { thumbnail &&
                     <div className='p-5 w-[90%] mx-auto bg-white rounded-lg'>
                         <h1 className='pb-5 text-2xl text-center font-semibold'>เครื่องมือตัดรูปภาพ</h1>
-                        <ReactCrop crop={ crop } onChange={ setCrop } aspect={ 3 / 5 }>
-                            <img className='w-full max-w-md max-h-[70vh]' src={ thumbnail } alt="preview"></img>
+                        <ReactCrop crop={ crop } onChange={ setCrop } aspect={ 0.75 }>
+                            <img className='max-w-full max-h-[70vh]' src={ thumbnail } alt="preview"></img>
                         </ReactCrop>
                         <div className='flex pb-3 pt-5 gap-3 text-white justify-center'>
                             <button className='w-20 py-1.5 rounded-md bg-blue-500'>ตกลง</button>
