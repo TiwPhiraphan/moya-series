@@ -1,14 +1,7 @@
 
-import Link from 'next/link'
-import { Config } from '@package/config'
-import { Audiowide } from 'next/font/google'
-import Container from '@package/components/Container'
-
-const font = Audiowide({
-    subsets: ['latin'],
-    weight: ['400'],
-    preload: false
-})
+import { cookies } from 'next/headers'
+import HomePage from '@package/app/pages/Home'
+import { isAdminToken } from '@package/module/JwtAuth'
 
 export type InterfaceMetadata = {
     id: string
@@ -17,6 +10,8 @@ export type InterfaceMetadata = {
 }
 
 export default async function Home() {
+
+    const cookie = await cookies()
 
     const metadata: InterfaceMetadata[] = [
         {
@@ -71,24 +66,6 @@ export default async function Home() {
         }
     ]
 
-    return (
-        <>
-            <section className='px-4 w-full mx-auto max-w-6xl select-none'>
-                <nav className='flex h-20 w-full items-center justify-between'>
-                    <Link className={ font.className + ' font-normal text-4xl p-1' } href='/'>{ Config.brand }</Link>
-                    <Link className='border-gray-300 rounded-2xl border px-4 py-1' href='/oAuth2/login'>เข้าสู่ระบบ</Link>
-                </nav>
-                <main className='py-6 w-full'>
-                    <div className='pb-10 flex justify-center'>
-                        <input className='px-6 py-2 flex-1 outline-none border rounded-s-full max-w-96 border-gray-400' placeholder='ค้นหาซีรีย์ที่คุณสนใจ' type='text'></input>
-                        <button className='ps-3 pe-5 border bg-black text-white border-black border-s-0 rounded-e-full'>ค้นหา</button>
-                    </div>
-                    <Container metadata={ metadata } />
-                </main>
-                <footer className='py-5 text-center text-sm'>
-                    MoYa Series | All Rights Reserved | 2025
-                </footer>
-            </section>
-        </>
-    )
+    return <HomePage metadata={ metadata } isAdmin={ isAdminToken( cookie.get('Authorization')?.value ) } />
+    
 }

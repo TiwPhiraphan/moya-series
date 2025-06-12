@@ -13,7 +13,7 @@ const font = Krub({
 
 export const metadata: Metadata = {
     title: Config.title,
-    metadataBase: new URL( process.env.NODE_ENV == 'production' ? 'https://moya-series.vercel.app' : 'https://jubilant-space-potato-gxq74r6xp763p4j4-3000.app.github.dev' )
+    metadataBase: new URL( process.env.NODE_ENV == 'production' ? 'https://moya-series.vercel.app' : 'http://localhost:3000' )
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
