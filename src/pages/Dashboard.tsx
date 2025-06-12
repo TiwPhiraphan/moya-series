@@ -5,10 +5,11 @@ import Link from 'next/link'
 import { Config } from '@package/config'
 import { redirect } from 'next/navigation'
 import { Audiowide } from 'next/font/google'
-import { type FormEvent, useState } from 'react'
-import { type Crop, ReactCrop } from 'react-image-crop'
+import { type FormEvent, useState, useRef } from 'react'
+import { type Crop, ReactCrop, centerCrop } from 'react-image-crop'
 
 import 'react-image-crop/dist/ReactCrop.css'
+import { toast } from 'react-toastify'
 
 const font = Audiowide({
     subsets: ['latin'],
@@ -18,24 +19,137 @@ const font = Audiowide({
 
 export default function DashboardComponent() {
 
+    const imageRef = useRef<HTMLImageElement|null>(null)
+    const thumbnailRef = useRef<HTMLInputElement>(null)
+
+    const [ title, setTitle ] = useState('')
+    const [ description, setDescrption ] = useState('')
+    const [ thumbnail, setThumbnail ] = useState<File>()
+    const [ serie, setSerie ] = useState<File>()
+
     const [ crop, setCrop ] = useState<Crop>({
-        unit: 'px', width: 300, height: 400, x: 0, y: 0
+        unit: '%', width: 0, height: 0, x: 0, y: 0
     })
     
     const [ isOpenNew, setOpenNewState ] = useState(false)
     const [ isOpenCrop, setOpenCropState ] = useState(false)
 
-    const [ thumbnail, setThumbnail ] = useState('')
+    const [ imageSrc, setImageSrc ] = useState('')
 
     const onSelectThumbnail = ( event: FormEvent<HTMLInputElement> ) => {
         const file = event.currentTarget.files?.[0]
         if ( !file ) return void 0
         const reader = new FileReader()
         reader.addEventListener('load', () => {
-            setThumbnail( reader.result?.toString() || '' )
+            setImageSrc( reader.result?.toString() || '' )
         })
         reader.readAsDataURL( file )
         setOpenCropState( true )
+    }
+
+    const onImageLoad = ( event: FormEvent<HTMLImageElement> ) => {
+        const { height, width } = event.currentTarget
+        imageRef.current = event.currentTarget
+        setCrop(
+            centerCrop({
+                x: 0,
+                y: 0,
+                unit: 'px',
+                height: 150,
+                width: 150 * 0.7375
+            }, width, height )
+        )
+    }
+
+    const getGoogleAccessToken = async (): Promise<string> => {
+        const res = await fetch('/oAuth2/token/post', {
+            method: 'POST'
+        })
+        const data: { token: string } = await res.json()
+        return data.token
+    }
+
+    const uploadToGoogleDrive = async ( file: File ) => {
+
+        const token = await getGoogleAccessToken()
+        const extension = file.name.split('.').pop() || 'webp'
+
+        const metadata = {
+            name: `${Date.now()}.${extension}`,
+            parents: ['1GMQCzKONyarUvB4YvdWatlLs84dZoU9n']
+        }
+
+        const form = new FormData()
+        form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }))
+        form.append('file', file)
+
+        const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            body: form
+        })
+
+        const result = await response.json() as { id: string }
+        return result.id
+    }
+
+    const getCroppedImageFile = async (): Promise<File|null> => {
+
+        if (!imageRef.current || !crop.width || !crop.height) return null
+        const canvas = document.createElement('canvas')
+        const scaleX = imageRef.current.naturalWidth / imageRef.current.width
+        const scaleY = imageRef.current.naturalHeight / imageRef.current.height
+
+        canvas.width = crop.width
+        canvas.height = crop.height
+
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return null
+
+        ctx.drawImage(
+            imageRef.current,
+            crop.x * scaleX,
+            crop.y * scaleY,
+            crop.width * scaleX,
+            crop.height * scaleY,
+            0,
+            0,
+            crop.width,
+            crop.height
+        )
+
+        const image = thumbnailRef.current?.files?.[0] as File
+
+        return new Promise(resolve => {
+            canvas.toBlob(blob => {
+                if (!blob) return resolve(null)
+                const file = new File([blob], image.name, { type: image.type })
+                resolve(file)
+            }, image.type )
+        })
+    }
+
+    const onSubmitSave = async ( event: FormEvent ) => {
+        event.preventDefault()
+        const thumbnail_id = await uploadToGoogleDrive( thumbnail as File )
+        const serie_upload = uploadToGoogleDrive( serie as File )
+        toast.promise(
+            serie_upload,
+            {
+                error: 'อัปโหลดไม่สำเร็จ',
+                success: 'อัปโหลดสำเร็จ',
+                pending: 'กำลังอัปโหลดวีดีโอ'
+            }
+        )
+    }
+
+    const onCropped = async  ( event: FormEvent ) => {
+        event.preventDefault()
+        const img = await getCroppedImageFile() as File
+        setThumbnail( img )
+        setOpenCropState( false )
     }
 
     const AuthLogout = async () => {
@@ -65,23 +179,23 @@ export default function DashboardComponent() {
                 </header>
             </main>
             <div className={ ( isOpenNew ? 'block' : 'hidden' ) + ' fixed top-0 left-0 w-full h-full bg-slate-700 bg-opacity-70' }>
-                <form className='p-5 sm:mt-6 mx-auto bg-white min-h-dvh sm:min-h-0 sm:rounded-lg max-w-4xl sm:max-w-lg'>
+                <form onSubmit={ onSubmitSave } className='p-5 sm:mt-6 mx-auto bg-white min-h-dvh sm:min-h-0 sm:rounded-lg max-w-4xl sm:max-w-lg'>
                     <h1 className='p-4 text-2xl text-center font-semibold'>เพิ่มซีรีย์ใหม่</h1>
                     <div className='pt-2.5 flex flex-col'>
                         <label htmlFor='title'>ชื่อเรื่อง</label>
-                        <input className='px-4 py-1 border rounded outline-none' id='title' type="text"></input>
+                        <input className='px-4 py-1 border rounded outline-none' id='title' type="text" required></input>
                     </div>
                     <div className='pt-2.5 flex flex-col'>
                         <label htmlFor='description'>เรื่องย่อ - บทนำ</label>
-                        <input className='px-4 py-1 border rounded outline-none' id='description' type="text"></input>
+                        <input className='px-4 py-1 border rounded outline-none' id='description' type="text" required></input>
                     </div>
                     <div className='pt-2.5 flex flex-col'>
                         <label>ภาพหน้าปก</label>
-                        <input onChange={ onSelectThumbnail } className='px-4 py-1 border rounded outline-none' id='thumbnail' type="file" accept='image/webp, image/jpeg, image/png'></input>
+                        <input ref={ thumbnailRef } onChange={ onSelectThumbnail } className='px-4 py-1 border rounded outline-none' id='thumbnail' type="file" accept='image/webp, image/jpeg, image/png' required></input>
                     </div>
                     <div className='pt-2.5 flex flex-col'>
-                        <label>ซีรีย์</label>
-                        <input className='px-4 py-1 border rounded outline-none' id='movie' type="file" accept='video/mp4, video/webm, video/ogg'></input>
+                        <label>ซีรีย์เต็มเรื่อง</label>
+                        <input className='px-4 py-1 border rounded outline-none' id='movie' type="file" accept='video/mp4, video/webm, video/ogg' required></input>
                     </div>
                     <div className='p-4 flex gap-3 text-white justify-center'>
                         <button className='w-20 py-1.5 rounded-md bg-blue-500' type='submit'>บันทึก</button>
@@ -90,19 +204,19 @@ export default function DashboardComponent() {
                 </form>
             </div>
             <div className={ ( isOpenCrop ? 'flex' : 'hidden' ) + ' fixed top-0 left-0 w-full h-full items-center justify-center bg-slate-700 bg-opacity-70' }>
-                { thumbnail &&
-                    <div className='p-5 w-[90%] mx-auto bg-white rounded-lg'>
+                { imageSrc &&
+                    <form onSubmit={ onCropped } className='p-5 w-11/12 max-w-3xl mx-auto bg-white rounded-lg'>
                         <h1 className='pb-5 text-2xl text-center font-semibold'>เครื่องมือตัดรูปภาพ</h1>
-                        <div className='flex h-[70vh] justify-center'>
-                            <ReactCrop crop={ crop } onChange={ setCrop } aspect={ 0.7375 }>
-                                <img className='w-full h-full object-contain' src={ thumbnail } alt="preview"></img>
+                        <div className='flex border bg-gray-100 items-center justify-center'>
+                            <ReactCrop className='max-h-[70vh] max-w-2xl' crop={ crop } onChange={ setCrop } aspect={ 0.7375 }>
+                                <img onLoad={ onImageLoad } className='w-full max-h-full' src={ imageSrc } alt="preview"></img>
                             </ReactCrop>
                         </div>
                         <div className='flex pb-3 pt-5 gap-3 text-white justify-center'>
-                            <button className='w-20 py-1.5 rounded-md bg-blue-500'>ตกลง</button>
-                            <button onClick={ () => setOpenCropState( false ) } className='w-20 py-1.5 rounded-md bg-red-500'>ยกเลิก</button>
+                            <button className='w-20 py-1.5 rounded-md bg-blue-500' type='submit'>ตกลง</button>
+                            <button onClick={ () => setOpenCropState( false ) } className='w-20 py-1.5 rounded-md bg-red-500' type='reset'>ยกเลิก</button>
                         </div>
-                    </div>
+                    </form>
                 }
             </div>
         </section>
