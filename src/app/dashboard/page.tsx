@@ -1,9 +1,9 @@
 
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { isAdminToken } from '@package/lib/JwtAuth'
 import DashboardComponent from '@package/pages/Dashboard'
-import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
     title: 'Admin Dashboard'
