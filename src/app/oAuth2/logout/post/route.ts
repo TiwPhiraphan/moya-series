@@ -4,12 +4,10 @@ import { NextResponse } from 'next/server'
 
 export const revalidate = 0
 
-export async function GET() {
+export async function POST() {
     const cookie = await cookies()
     cookie.delete('Authorization')
     return NextResponse.json({ code: 200, message: 'Ok' }, {
-        headers: {
-            'Set-Cookie': cookie.toString()
-        }
+        headers: { 'Set-Cookie': cookie.toString() }
     })
 }
