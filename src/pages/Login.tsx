@@ -60,7 +60,7 @@ export default function LoginComponent() {
                 <h1 className={ font.className + ' text-center text-4xl pb-4' }>MoYa</h1>
                 <input className='mt-2 px-4 py-1 w-full outline-none border-b bg-transparent' type='text' value='Admin_MoYa' disabled={ true }></input>
                 <input ref={ inputRef } value={ token } onInput={ ( event ) => setToken( event.currentTarget.value ) } className='mt-2 px-4 py-1 w-full outline-none border-b bg-transparent' type='password' placeholder='ป้อนรหัสผ่าน' minLength={ 8 } maxLength={ 20 } required={ true }></input>
-                <input className='mt-4 py-1 w-full bg-black text-white rounded-full cursor-pointer' type='submit' value='เข้าสู่ระบบ'></input>
+                <input className='mt-4 py-1.5 w-full bg-black text-white rounded-full cursor-pointer' type='submit' value='เข้าสู่ระบบ'></input>
             </form>
         </section>
     )
