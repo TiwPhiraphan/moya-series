@@ -19,7 +19,7 @@ const font = Audiowide({
 export default function DashboardComponent() {
 
     const [ crop, setCrop ] = useState<Crop>({
-        unit: '%', width: 300, height: 400, x: 0, y: 0
+        unit: '%', width: 80, height: 80, x: 10, y: 10
     })
     
     const [ isOpenNew, setOpenNewState ] = useState(false)
