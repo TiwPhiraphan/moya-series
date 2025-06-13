@@ -1,4 +1,6 @@
 
+'use client'
+
 import { toast } from 'react-toastify'
 import { type FormEvent, useState, useRef } from 'react'
 import { type Crop, ReactCrop, centerCrop } from 'react-image-crop'
