@@ -133,9 +133,17 @@ export default function DashboardComponent() {
 
     const onSubmitSave = async ( event: FormEvent ) => {
         event.preventDefault()
-        const thumbnail_id = await uploadToGoogleDrive( thumbnail as File )
+        const thumbnail_upload = uploadToGoogleDrive( thumbnail as File )
+        await toast.promise(
+            thumbnail_upload,
+            {
+                error: 'อัปโหลดไม่สำเร็จ',
+                success: 'อัปโหลดสำเร็จ',
+                pending: 'กำลังอัปโหลดภาพหน้าปก'
+            }
+        )
         const serie_upload = uploadToGoogleDrive( serie as File )
-        toast.promise(
+        await toast.promise(
             serie_upload,
             {
                 error: 'อัปโหลดไม่สำเร็จ',
